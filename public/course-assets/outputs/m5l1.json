@@ -1,0 +1,10 @@
+{
+  "feature_columns": [
+    "value",
+    "quality",
+    "size"
+  ],
+  "label": "next-business-day return",
+  "samples": 3775,
+  "causal_order": "feature_time < label_time"
+}

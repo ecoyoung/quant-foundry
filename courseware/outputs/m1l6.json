@@ -1,0 +1,31 @@
+{
+  "quality": {
+    "ALFA": {
+      "missing_close": 0,
+      "non_positive": 0,
+      "duplicate_dates": 0
+    },
+    "BRAV": {
+      "missing_close": 0,
+      "non_positive": 0,
+      "duplicate_dates": 0
+    },
+    "CRUX": {
+      "missing_close": 0,
+      "non_positive": 0,
+      "duplicate_dates": 0
+    },
+    "DUNE": {
+      "missing_close": 0,
+      "non_positive": 0,
+      "duplicate_dates": 0
+    },
+    "ECHO": {
+      "missing_close": 0,
+      "non_positive": 0,
+      "duplicate_dates": 0
+    }
+  },
+  "alfa_split_raw_close": 41.040548,
+  "alfa_split_adjusted": 82.081096
+}

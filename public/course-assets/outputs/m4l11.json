@@ -1,0 +1,11 @@
+{
+  "events_processed": 756,
+  "ending_equity": 81403.1743261121,
+  "performance": {
+    "annual_return": -0.0673657827,
+    "annual_volatility": 0.049227893,
+    "sharpe": -1.3684474096,
+    "max_drawdown": -0.1952232379
+  },
+  "ledger_balanced": true
+}

@@ -1,0 +1,9 @@
+{
+  "checks": {
+    "single_weight": true,
+    "gross_exposure": true,
+    "participation": true,
+    "daily_loss": true
+  },
+  "order_allowed": true
+}

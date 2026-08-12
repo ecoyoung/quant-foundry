@@ -1,0 +1,10 @@
+{
+  "hypothesis": "20-day cross-sectional momentum",
+  "performance": {
+    "annual_return": 0.0556041918,
+    "annual_volatility": 0.1038762546,
+    "sharpe": 0.5352926132,
+    "max_drawdown": -0.1366857857
+  },
+  "average_turnover": 0.376984127
+}

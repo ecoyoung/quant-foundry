@@ -1,0 +1,17 @@
+{
+  "feature_names": [
+    "value",
+    "quality",
+    "size"
+  ],
+  "coefficient_mean": [
+    -0.0011185042,
+    -0.0005047592,
+    0.0001080787
+  ],
+  "coefficient_std": [
+    8.20747e-05,
+    0.0001698244,
+    2.44637e-05
+  ]
+}

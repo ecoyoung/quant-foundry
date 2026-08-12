@@ -1,0 +1,1864 @@
+{
+  "m1l1": {
+    "title": "cases.py · _module_one() · m1l1",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l1\"\nsample = pd.Series([100.0, 110.0, 100.0]).pct_change().dropna()\nreturn {\"returns\": sample.tolist(), \"final_price\": 100.0}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 56,
+      "end": 58
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix",
+      "pandas"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "pandas": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import pandas as pd\n# pandas 提供表格、时间索引与分组计算。"
+      }
+    }
+  },
+  "m1l2": {
+    "title": "cases.py · _module_one() · m1l2",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l2\"\nvalid = (daily.high >= daily[[\"open\", \"close\"]].max(axis=1)) & (daily.low <= daily[[\"open\", \"close\"]].min(axis=1)) & (daily.volume >= 0)\nreturn {\"rows\": len(daily), \"valid_rows\": int(valid.sum()), \"invalid_rows\": int((~valid).sum())}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 59,
+      "end": 61
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m1l3": {
+    "title": "cases.py · _module_one() · m1l3",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l3\"\ndef simple_return(previous: float, current: float) -> float:\n    if previous <= 0:\n        raise ValueError(\"previous must be positive\")\n    return current / previous - 1\nreturn {\"100_to_105\": simple_return(100, 105), \"105_to_100\": simple_return(105, 100)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 62,
+      "end": 67
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m1l4": {
+    "title": "cases.py · _module_one() · m1l4",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l4\"\nvector = np.array([100.0, 102.0, 101.0, 105.0])\nreturn {\"shape\": list(vector.shape), \"returns\": (vector[1:] / vector[:-1] - 1).tolist()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 68,
+      "end": 70
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m1l5": {
+    "title": "cases.py · _module_one() · m1l5",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l5\"\nreturn {\"price_shape\": list(prices.shape), \"assets\": prices.columns.tolist(), \"first_valid_return\": returns.dropna().iloc[0].to_dict()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 71,
+      "end": 72
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m1l6": {
+    "title": "cases.py · _module_one() · m1l6",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l6\"\nquality = daily.groupby(\"asset\").agg(missing_close=(\"close\", lambda x: int(x.isna().sum())), non_positive=(\"close\", lambda x: int((x <= 0).sum())), duplicate_dates=(\"date\", lambda x: int(x.duplicated().sum())))\nsplit_day = daily[(daily.asset == \"ALFA\")].iloc[420]\nreturn {\"quality\": quality.to_dict(\"index\"), \"alfa_split_raw_close\": split_day.close, \"alfa_split_adjusted\": split_day.adjusted_close}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 73,
+      "end": 76
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m1l7": {
+    "title": "cases.py · _module_one() · m1l7",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 命中分支：if case == \"m1l7\"\nminute = load_minute().set_index(\"timestamp\")\ndaily_bar = minute.resample(\"1D\").agg({\"open\": \"first\", \"high\": \"max\", \"low\": \"min\", \"close\": \"last\", \"volume\": \"sum\"}).dropna()\nreturn {\"minute_rows\": len(minute), \"daily_bar\": daily_bar.iloc[0].to_dict()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 77,
+      "end": 80
+    },
+    "dependencies": [
+      "load_daily",
+      "load_minute",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "load_minute": {
+        "file": "courseware/common.py",
+        "start": 22,
+        "end": 24,
+        "source": "def load_minute() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"minute_ohlcv.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m1l8": {
+    "title": "cases.py · _module_one() · 默认项目分支",
+    "source": "# 进入 _module_one 后先执行\ndaily = load_daily()\nprices = close_matrix()\nreturns = return_matrix()\n\n# 未被前序 if 返回，进入 m1l8 默认分支\nstats = {asset: annualized_stats(returns[asset]) for asset in returns.columns}\nreturn {\"dataset_rows\": len(daily), \"date_start\": daily.date.min(), \"date_end\": daily.date.max(), \"asset_stats\": stats}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_one()",
+      "start": 81,
+      "end": 82
+    },
+    "dependencies": [
+      "load_daily",
+      "close_matrix",
+      "return_matrix",
+      "annualized_stats"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      }
+    }
+  },
+  "m2l1": {
+    "title": "cases.py · _module_two() · m2l1",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l1\"\nsample = rng.normal(0.0004, 0.01, 1000)\nreturn {\"sample_mean\": sample.mean(), \"sample_std\": sample.std(ddof=1), \"n\": len(sample)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 88,
+      "end": 90
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l2": {
+    "title": "cases.py · _module_two() · m2l2",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l2\"\nsample = np.array([0.02, -0.01, 0.03])\nreturn {\"mean\": sample.mean(), \"sample_std\": sample.std(ddof=1), \"variance\": sample.var(ddof=1)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 91,
+      "end": 93
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l3": {
+    "title": "cases.py · _module_two() · m2l3",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l3\"\nmatrix = return_matrix()\nreturn {\"covariance\": matrix.cov().round(8).to_dict(), \"correlation\": matrix.corr().round(4).to_dict()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 94,
+      "end": 96
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l4": {
+    "title": "cases.py · _module_two() · m2l4",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l4\"\nz = np.array([-2.326347874, 2.326347874])\nnormal_q = r.mean() + z * r.std(ddof=1)\nreturn {\"empirical_1_99\": r.quantile([0.01, 0.99]).tolist(), \"normal_1_99\": normal_q.tolist(), \"skew\": r.skew(), \"excess_kurtosis\": r.kurt()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 97,
+      "end": 100
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l5": {
+    "title": "cases.py · _module_two() · m2l5",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l5\"\nsample = rng.normal(0.001, 0.02, 5000)\nrunning = np.cumsum(sample) / np.arange(1, len(sample) + 1)\nreturn {\"mean_at_10\": running[9], \"mean_at_100\": running[99], \"mean_at_5000\": running[-1]}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 101,
+      "end": 104
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l6": {
+    "title": "cases.py · _module_two() · m2l6",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l6\"\ndef sharpe(x: np.ndarray) -> float:\n    return float(np.sqrt(252) * x.mean() / x.std(ddof=1))\nvalues = np.array([sharpe(rng.choice(r.to_numpy(), len(r), replace=True)) for _ in range(1000)])\nreturn {\"estimate\": sharpe(r.to_numpy()), \"ci_95\": np.quantile(values, [0.025, 0.975]).tolist(), \"replications\": 1000}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 105,
+      "end": 109
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l7": {
+    "title": "cases.py · _module_two() · m2l7",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l7\"\nreturn annualized_stats(r)",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 110,
+      "end": 111
+    },
+    "dependencies": [
+      "return_matrix",
+      "annualized_stats",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l8": {
+    "title": "cases.py · _module_two() · m2l8",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l8\"\nthreshold = r.quantile(0.05)\nreturn {\"historical_var_95\": -threshold, \"historical_cvar_95\": -r[r <= threshold].mean(), \"tail_count\": int((r <= threshold).sum())}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 112,
+      "end": 114
+    },
+    "dependencies": [
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l9": {
+    "title": "cases.py · _module_two() · m2l9",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 命中分支：if case == \"m2l9\"\nmatrix = return_matrix()\nweights = np.repeat(1 / matrix.shape[1], matrix.shape[1])\nportfolio = matrix @ weights\nreturn {\"weights\": dict(zip(matrix.columns, weights)), **annualized_stats(portfolio)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 115,
+      "end": 119
+    },
+    "dependencies": [
+      "return_matrix",
+      "annualized_stats",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m2l10": {
+    "title": "cases.py · _module_two() · 默认项目分支",
+    "source": "# 进入 _module_two 后先执行\nr = return_matrix()[\"ALFA\"].dropna()\nrng = np.random.default_rng(SEED)\n\n# 未被前序 if 返回，进入 m2l10 默认分支\nmatrix = return_matrix()\nportfolio = matrix.mean(axis=1)\nrolling_vol = portfolio.rolling(60).std() * np.sqrt(252)\nwealth = (1 + portfolio.fillna(0)).cumprod()\nreturn {\"portfolio\": annualized_stats(portfolio), \"latest_60d_vol\": rolling_vol.iloc[-1], \"rolling_volatility\": rolling_vol.dropna().iloc[::30].tolist(), \"wealth_curve\": wealth.iloc[::30].tolist(), \"correlation\": matrix.corr().round(3).to_dict()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_two()",
+      "start": 120,
+      "end": 124
+    },
+    "dependencies": [
+      "return_matrix",
+      "annualized_stats",
+      "numpy"
+    ],
+    "dependencySources": {
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m3l1": {
+    "title": "cases.py · _module_three() · m3l1",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l1\"\nreturn {\"universe\": \"5 synthetic liquid assets\", \"signal\": \"20-day momentum\", \"holding_period\": \"5 business days\", \"metric\": \"cost-adjusted return\", \"rejection_rule\": \"out-of-sample Sharpe <= 0\"}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 131,
+      "end": 132
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m3l2": {
+    "title": "cases.py · _module_three() · m3l2",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l2\"\nprice = prices.ALFA.dropna().to_numpy()\nret = returns.ALFA.dropna().to_numpy()\nreturn {\"price_lag1_correlation\": np.corrcoef(price[1:], price[:-1])[0, 1], \"return_lag1_correlation\": np.corrcoef(ret[1:], ret[:-1])[0, 1]}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 133,
+      "end": 136
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m3l3": {
+    "title": "cases.py · _module_three() · m3l3",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l3\"\nr = returns.ALFA.dropna()\nautocorr = {lag: r.autocorr(lag) for lag in range(1, 11)}\nabsolute = {lag: r.abs().autocorr(lag) for lag in range(1, 11)}\nreturn {\"return_acf\": autocorr, \"absolute_return_acf\": absolute}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 137,
+      "end": 141
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m3l4": {
+    "title": "cases.py · _module_three() · m3l4",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l4\"\nfeature = prices.pct_change(20)\nvol = returns.rolling(20).std()\ntarget = returns.shift(-1)\nvalid = feature.notna() & vol.notna() & target.notna()\nreturn {\"valid_samples\": int(valid.sum().sum()), \"feature_end\": feature.dropna(how=\"all\").index.max(), \"target_shift\": -1}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 142,
+      "end": 147
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m3l5": {
+    "title": "cases.py · _module_three() · m3l5",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l5\"\npanel = factors[[\"value\", \"future_return\"]].dropna()\nbeta = _ols(panel[[\"value\"]].to_numpy(), panel.future_return.to_numpy())\nprediction = beta[0] + beta[1] * panel.value.to_numpy()\nr2 = 1 - np.square(panel.future_return - prediction).sum() / np.square(panel.future_return - panel.future_return.mean()).sum()\nreturn {\"intercept\": beta[0], \"value_coefficient\": beta[1], \"r_squared\": r2, \"samples\": len(panel)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 148,
+      "end": 153
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix",
+      "_ols",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "_ols": {
+        "file": "courseware/cases.py",
+        "start": 23,
+        "end": 27,
+        "source": "def _ols(x: np.ndarray, y: np.ndarray, ridge: float = 0.0) -> np.ndarray:\n    design = np.column_stack([np.ones(len(x)), x])\n    penalty = np.eye(design.shape[1]) * ridge\n    penalty[0, 0] = 0.0\n    return np.linalg.solve(design.T @ design + penalty, design.T @ y)"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m3l6": {
+    "title": "cases.py · _module_three() · m3l6",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l6\"\nmonthly = prices.resample(\"ME\").last()\nmomentum = monthly.shift(1) / monthly.shift(12) - 1\nreturn {\"latest_momentum\": momentum.iloc[-1].to_dict(), \"latest_rank\": momentum.rank(axis=1, pct=True).iloc[-1].to_dict()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 154,
+      "end": 157
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m3l7": {
+    "title": "cases.py · _module_three() · m3l7",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l7\"\nspread = np.log(prices.ALFA) - np.log(prices.BRAV)\nz = (spread - spread.rolling(20).mean()) / spread.rolling(20).std()\nreturn {\"latest_zscore\": z.iloc[-1], \"long_signals\": int((z < -2).sum()), \"short_signals\": int((z > 2).sum())}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 158,
+      "end": 161
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m3l8": {
+    "title": "cases.py · _module_three() · m3l8",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 命中分支：if case == \"m3l8\"\npanel = factors.copy()\nic = panel.groupby(\"date\").apply(lambda x: x.value.rank().corr(x.future_return.rank()), include_groups=False).dropna()\nreturn {\"mean_ic\": ic.mean(), \"positive_ic_ratio\": (ic > 0).mean(), \"periods\": len(ic)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 162,
+      "end": 165
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m3l9": {
+    "title": "cases.py · _module_three() · 默认项目分支",
+    "source": "# 进入 _module_three 后先执行\nprices = close_matrix()\nreturns = return_matrix()\nfactors = load_factors().dropna()\n\n# 未被前序 if 返回，进入 m3l9 默认分支\nsignal = prices.pct_change(20).shift(1)\nranks = signal.rank(axis=1, pct=True)\nlong_short = ((ranks > 0.8).astype(float) - (ranks < 0.2).astype(float))\nweights = long_short.div(long_short.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0)\nstrategy = (weights * returns).sum(axis=1)\nwealth = (1 + strategy.fillna(0)).cumprod()\nreturn {\"hypothesis\": \"20-day cross-sectional momentum\", \"performance\": annualized_stats(strategy), \"average_turnover\": weights.diff().abs().sum(axis=1).mean(), \"wealth_curve\": wealth.iloc[::30].tolist()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_three()",
+      "start": 166,
+      "end": 172
+    },
+    "dependencies": [
+      "load_factors",
+      "close_matrix",
+      "return_matrix",
+      "annualized_stats",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "close_matrix": {
+        "file": "courseware/common.py",
+        "start": 37,
+        "end": 39,
+        "source": "def close_matrix(adjusted: bool = True) -> pd.DataFrame:\n    field = \"adjusted_close\" if adjusted else \"close\"\n    return load_daily().pivot(index=\"date\", columns=\"asset\", values=field).sort_index()"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m4l1": {
+    "title": "cases.py · _module_four() · m4l1",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l1\"\nreturn {\"event_flow\": [\"DataFeed\", \"Strategy\", \"Portfolio\", \"Broker\", \"Ledger\"], \"separation_checks\": 5}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 178,
+      "end": 179
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m4l2": {
+    "title": "cases.py · _module_four() · m4l2",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l2\"\nequity, price, current_shares, target_weight = 100_000, 125.0, 100, 0.25\ntarget = int(target_weight * equity / price)\nreturn {\"current_shares\": current_shares, \"target_shares\": target, \"order_quantity\": target - current_shares}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 180,
+      "end": 183
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m4l3": {
+    "title": "cases.py · _module_four() · m4l3",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l3\"\nsignal_time = pd.Timestamp(\"2026-08-10 16:00\")\nexecution_time = pd.Timestamp(\"2026-08-11 09:30\")\nreturn {\"information_time\": signal_time, \"execution_time\": execution_time, \"causal_order_valid\": signal_time <= execution_time}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 184,
+      "end": 187
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "pandas"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "pandas": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import pandas as pd\n# pandas 提供表格、时间索引与分组计算。"
+      }
+    }
+  },
+  "m4l4": {
+    "title": "cases.py · _module_four() · m4l4",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l4\"\ndaily = load_daily()\nmembership = daily.groupby(\"asset\").historical_member.agg([\"sum\", \"count\"])\nreturn {\"membership_days\": membership.to_dict(\"index\"), \"survivorship_safe\": bool((daily.historical_member == False).any())}  # noqa: E712",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 188,
+      "end": 191
+    },
+    "dependencies": [
+      "load_daily",
+      "load_orders",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_daily": {
+        "file": "courseware/common.py",
+        "start": 17,
+        "end": 19,
+        "source": "def load_daily() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"daily_ohlcv.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m4l5": {
+    "title": "cases.py · _module_four() · m4l5",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l5\"\ngross = _portfolio_backtest(0)\nnet = _portfolio_backtest(10)\nreturn {\"gross\": annualized_stats(gross), \"net_10bps\": annualized_stats(net), \"annual_cost_drag\": gross.mean() * 252 - net.mean() * 252}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 192,
+      "end": 195
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "annualized_stats",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m4l6": {
+    "title": "cases.py · _module_four() · m4l6",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l6\"\nparticipation = np.array([0.005, 0.01, 0.025, 0.05])\nslippage = 0.1 * np.square(participation)\nreturn {\"participation\": participation.tolist(), \"slippage_fraction\": slippage.tolist()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 196,
+      "end": 199
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m4l7": {
+    "title": "cases.py · _module_four() · m4l7",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l7\"\ntransitions = orders.groupby(\"order_id\").status.apply(list).to_dict()\nreturn {\"order_state_paths\": transitions, \"filled_orders\": int(orders.groupby(\"order_id\").status.apply(lambda x: \"filled\" in set(x)).sum())}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 200,
+      "end": 202
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      }
+    }
+  },
+  "m4l8": {
+    "title": "cases.py · _module_four() · m4l8",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l8\"\nstrategy = _portfolio_backtest(10)\nstats = annualized_stats(strategy)\nstats[\"positive_day_ratio\"] = float((strategy > 0).mean())\nreturn stats",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 203,
+      "end": 207
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "annualized_stats",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m4l9": {
+    "title": "cases.py · _module_four() · m4l9",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l9\"\nstrategy = _portfolio_backtest(10)\nwealth = (1 + strategy).cumprod()\ndrawdown = wealth / wealth.cummax() - 1\nreturn {\"max_drawdown\": drawdown.min(), \"max_drawdown_date\": drawdown.idxmin(), \"underwater_days\": int((drawdown < 0).sum())}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 208,
+      "end": 212
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m4l10": {
+    "title": "cases.py · _module_four() · m4l10",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 命中分支：if case == \"m4l10\"\nsplits = _time_splits(len(returns), folds=5, test_size=60, gap=5)\nreturn {\"folds\": [{\"train_start\": int(tr[0]), \"train_end\": int(tr[-1]), \"test_start\": int(te[0]), \"test_end\": int(te[-1])} for tr, te in splits]}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 213,
+      "end": 215
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "_time_splits"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      }
+    }
+  },
+  "m4l11": {
+    "title": "cases.py · _module_four() · 默认项目分支",
+    "source": "# 进入 _module_four 后先执行\nreturns = return_matrix()\norders = load_orders()\n\n# 未被前序 if 返回，进入 m4l11 默认分支\nstrategy = _portfolio_backtest(10)\nledger = pd.DataFrame({\"return\": strategy, \"equity\": (1 + strategy).cumprod() * 100_000})\ndrawdown = ledger.equity / ledger.equity.cummax() - 1\nmonthly = strategy.resample(\"ME\").apply(lambda values: (1 + values).prod() - 1)\nreturn {\"events_processed\": len(ledger), \"ending_equity\": ledger.equity.iloc[-1], \"performance\": annualized_stats(strategy), \"ledger_balanced\": bool((ledger.equity > 0).all()), \"equity_curve\": ledger.equity.iloc[::30].tolist(), \"drawdown_curve\": drawdown.iloc[::30].tolist(), \"monthly_returns\": {date.strftime(\"%Y-%m\"): value for date, value in monthly.items()}}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_four()",
+      "start": 216,
+      "end": 220
+    },
+    "dependencies": [
+      "load_orders",
+      "return_matrix",
+      "annualized_stats",
+      "_portfolio_backtest",
+      "pandas"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "return_matrix": {
+        "file": "courseware/common.py",
+        "start": 42,
+        "end": 43,
+        "source": "def return_matrix() -> pd.DataFrame:\n    return close_matrix().pct_change().dropna(how=\"all\")"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      },
+      "pandas": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import pandas as pd\n# pandas 提供表格、时间索引与分组计算。"
+      }
+    }
+  },
+  "m5l1": {
+    "title": "cases.py · _module_five() · m5l1",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l1\"\nreturn {\"feature_columns\": [\"value\", \"quality\", \"size\"], \"label\": \"next-business-day return\", \"samples\": len(panel), \"causal_order\": \"feature_time < label_time\"}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 228,
+      "end": 229
+    },
+    "dependencies": [
+      "load_factors",
+      "_time_splits"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      }
+    }
+  },
+  "m5l2": {
+    "title": "cases.py · _module_five() · m5l2",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l2\"\ntrain, test = splits[0]\nmean, std = features[train].mean(axis=0), features[train].std(axis=0)\ntransformed = (features[test] - mean) / np.where(std == 0, 1, std)\nreturn {\"train_rows\": len(train), \"test_rows\": len(test), \"test_scaled_mean\": transformed.mean(axis=0).tolist()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 230,
+      "end": 234
+    },
+    "dependencies": [
+      "load_factors",
+      "_time_splits",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m5l3": {
+    "title": "cases.py · _module_five() · m5l3",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l3\"\nreturn {\"folds\": len(splits), \"chronological\": all(tr[-1] < te[0] for tr, te in splits), \"gap\": int(splits[0][1][0] - splits[0][0][-1] - 1)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 235,
+      "end": 236
+    },
+    "dependencies": [
+      "load_factors",
+      "_time_splits"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      }
+    }
+  },
+  "m5l4": {
+    "title": "cases.py · _module_five() · m5l4",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l4\"\nrng = np.random.default_rng(SEED)\nshuffled = rng.permutation(target)\nscaled = (features - features.mean(axis=0)) / features.std(axis=0)\nbeta = _ols(scaled, shuffled, ridge=1.0)\nprediction = beta[0] + np.sum(scaled * beta[1:], axis=1)\ncorr = np.corrcoef(prediction, shuffled)[0, 1]\nreturn {\"shuffled_label_correlation\": corr, \"warning\": \"in-sample correlation is not validation\"}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 237,
+      "end": 244
+    },
+    "dependencies": [
+      "load_factors",
+      "_ols",
+      "_time_splits",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_ols": {
+        "file": "courseware/cases.py",
+        "start": 23,
+        "end": 27,
+        "source": "def _ols(x: np.ndarray, y: np.ndarray, ridge: float = 0.0) -> np.ndarray:\n    design = np.column_stack([np.ones(len(x)), x])\n    penalty = np.eye(design.shape[1]) * ridge\n    penalty[0, 0] = 0.0\n    return np.linalg.solve(design.T @ design + penalty, design.T @ y)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m5l5": {
+    "title": "cases.py · _module_five() · m5l5",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l5\"\ntrain, test = splits[-1]\nbeta = _ols(features[train], target[train], ridge=1.0)\nprediction = np.column_stack([np.ones(len(test)), features[test]]) @ beta\nbaseline = np.repeat(target[train].mean(), len(test))\nreturn {\"ridge_mse\": np.square(target[test] - prediction).mean(), \"baseline_mse\": np.square(target[test] - baseline).mean()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 245,
+      "end": 250
+    },
+    "dependencies": [
+      "load_factors",
+      "_ols",
+      "_time_splits",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_ols": {
+        "file": "courseware/cases.py",
+        "start": 23,
+        "end": 27,
+        "source": "def _ols(x: np.ndarray, y: np.ndarray, ridge: float = 0.0) -> np.ndarray:\n    design = np.column_stack([np.ones(len(x)), x])\n    penalty = np.eye(design.shape[1]) * ridge\n    penalty[0, 0] = 0.0\n    return np.linalg.solve(design.T @ design + penalty, design.T @ y)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m5l6": {
+    "title": "cases.py · _module_five() · m5l6",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l6\"\ncoefficients = []\nfor train, _ in splits:\n    coefficients.append(_ols(features[train], target[train], ridge=1.0)[1:])\narray = np.array(coefficients)\nreturn {\"feature_names\": [\"value\", \"quality\", \"size\"], \"coefficient_mean\": array.mean(axis=0).tolist(), \"coefficient_std\": array.std(axis=0).tolist()}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 251,
+      "end": 256
+    },
+    "dependencies": [
+      "load_factors",
+      "_ols",
+      "_time_splits",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_ols": {
+        "file": "courseware/cases.py",
+        "start": 23,
+        "end": 27,
+        "source": "def _ols(x: np.ndarray, y: np.ndarray, ridge: float = 0.0) -> np.ndarray:\n    design = np.column_stack([np.ones(len(x)), x])\n    penalty = np.eye(design.shape[1]) * ridge\n    penalty[0, 0] = 0.0\n    return np.linalg.solve(design.T @ design + penalty, design.T @ y)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m5l7": {
+    "title": "cases.py · _module_five() · m5l7",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 命中分支：if case == \"m5l7\"\nrng = np.random.default_rng(SEED)\nsharpes = []\nfor _ in range(100):\n    noise = rng.normal(0, 0.01, 500)\n    sharpes.append(np.sqrt(252) * noise.mean() / noise.std(ddof=1))\nreturn {\"strategies_tried\": 100, \"mean_sharpe\": np.mean(sharpes), \"best_sharpe\": np.max(sharpes)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 257,
+      "end": 263
+    },
+    "dependencies": [
+      "load_factors",
+      "_time_splits",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m5l8": {
+    "title": "cases.py · _module_five() · 默认项目分支",
+    "source": "# 进入 _module_five 后先执行\npanel = load_factors().dropna().reset_index(drop=True)\nfeatures = panel[[\"value\", \"quality\", \"size\"]].to_numpy(float)\ntarget = panel.future_return.to_numpy(float)\nsplits = _time_splits(len(panel), folds=5, test_size=200, gap=5)\n\n# 未被前序 if 返回，进入 m5l8 默认分支\nfold_scores = []\nfor train, test in splits:\n    beta = _ols(features[train], target[train], ridge=1.0)\n    prediction = np.column_stack([np.ones(len(test)), features[test]]) @ beta\n    fold_scores.append(np.corrcoef(prediction, target[test])[0, 1])\nreturn {\"model\": \"ridge regression\", \"fold_correlations\": fold_scores, \"mean_oos_correlation\": np.nanmean(fold_scores), \"leakage_checks_passed\": True}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_five()",
+      "start": 264,
+      "end": 269
+    },
+    "dependencies": [
+      "load_factors",
+      "_ols",
+      "_time_splits",
+      "numpy"
+    ],
+    "dependencySources": {
+      "load_factors": {
+        "file": "courseware/common.py",
+        "start": 27,
+        "end": 29,
+        "source": "def load_factors() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"factor_panel.csv\", parse_dates=[\"date\"])\n    return frame.sort_values([\"date\", \"asset\"]).reset_index(drop=True)"
+      },
+      "_ols": {
+        "file": "courseware/cases.py",
+        "start": 23,
+        "end": 27,
+        "source": "def _ols(x: np.ndarray, y: np.ndarray, ridge: float = 0.0) -> np.ndarray:\n    design = np.column_stack([np.ones(len(x)), x])\n    penalty = np.eye(design.shape[1]) * ridge\n    penalty[0, 0] = 0.0\n    return np.linalg.solve(design.T @ design + penalty, design.T @ y)"
+      },
+      "_time_splits": {
+        "file": "courseware/cases.py",
+        "start": 41,
+        "end": 49,
+        "source": "def _time_splits(n: int, folds: int = 5, test_size: int = 60, gap: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:\n    splits = []\n    first_test = n - folds * test_size\n    for fold in range(folds):\n        test_start = first_test + fold * test_size\n        train = np.arange(0, max(0, test_start - gap))\n        test = np.arange(test_start, min(n, test_start + test_size))\n        splits.append((train, test))\n    return splits"
+      },
+      "numpy": {
+        "file": "第三方库",
+        "start": 0,
+        "end": 0,
+        "source": "import numpy as np\n# NumPy 提供数组、随机抽样与线性代数运算。"
+      }
+    }
+  },
+  "m6l1": {
+    "title": "cases.py · _module_six() · m6l1",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 命中分支：if case == \"m6l1\"\nreturn {\"package\": [\"signals.py\", \"portfolio.py\", \"config.py\", \"adapters/\", \"tests/\"], \"single_source_of_truth\": True}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 275,
+      "end": 276
+    },
+    "dependencies": [
+      "load_orders",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m6l2": {
+    "title": "cases.py · _module_six() · m6l2",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 命中分支：if case == \"m6l2\"\npaths = orders.groupby(\"order_id\").status.apply(list).to_dict()\nterminal = {order: states[-1] for order, states in paths.items()}\nreturn {\"state_paths\": paths, \"terminal_states\": terminal, \"unique_events\": len(orders.drop_duplicates([\"order_id\", \"status\", \"filled_quantity\"]))}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 277,
+      "end": 280
+    },
+    "dependencies": [
+      "load_orders",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m6l3": {
+    "title": "cases.py · _module_six() · m6l3",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 命中分支：if case == \"m6l3\"\nchecks = {\"single_weight\": abs(0.08) <= 0.10, \"gross_exposure\": 0.85 <= 1.0, \"participation\": 0.015 <= 0.025, \"daily_loss\": -0.012 >= -0.02}\nreturn {\"checks\": checks, \"order_allowed\": all(checks.values())}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 281,
+      "end": 283
+    },
+    "dependencies": [
+      "load_orders",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m6l4": {
+    "title": "cases.py · _module_six() · m6l4",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 命中分支：if case == \"m6l4\"\nmetrics = {\"data_lag_seconds\": 1.8, \"order_reject_rate\": 1 / 3, \"position_drift\": 0.002, \"realized_slippage_bps\": 2.4, \"heartbeat\": True}\nalerts = [name for name, value in metrics.items() if (name == \"order_reject_rate\" and value > 0.1) or (name == \"data_lag_seconds\" and value > 5)]\nreturn {\"metrics\": metrics, \"alerts\": alerts}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 284,
+      "end": 287
+    },
+    "dependencies": [
+      "load_orders",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m6l5": {
+    "title": "cases.py · _module_six() · m6l5",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 命中分支：if case == \"m6l5\"\nchecklist = {\"data\": True, \"clock\": True, \"risk\": True, \"orders\": True, \"reconciliation\": True, \"alerts\": True, \"kill_switch\": True}\nreturn {\"checklist\": checklist, \"ready_for_small_paper_trial\": all(checklist.values()), \"real_market_impact_validated\": False}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 288,
+      "end": 290
+    },
+    "dependencies": [
+      "load_orders",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m6l6": {
+    "title": "cases.py · _module_six() · m6l6",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 命中分支：if case == \"m6l6\"\nstats = annualized_stats(strategy)\nreturn {\"report_sections\": [\"thesis\", \"data\", \"method\", \"validation\", \"costs\", \"capacity\", \"risks\", \"limitations\", \"reproduction\", \"monitoring\"], \"strategy_snapshot\": stats, \"stop_condition\": \"rolling 6-month net Sharpe <= 0\"}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 291,
+      "end": 293
+    },
+    "dependencies": [
+      "load_orders",
+      "annualized_stats",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  },
+  "m6l7": {
+    "title": "cases.py · _module_six() · 默认项目分支",
+    "source": "# 进入 _module_six 后先执行\norders = load_orders()\nstrategy = _portfolio_backtest(10)\n\n# 未被前序 if 返回，进入 m6l7 默认分支\nreturn {\"deliverables\": [\"protocol\", \"repository\", \"data_dictionary\", \"backtest\", \"robustness\", \"cost_model\", \"risk_limits\", \"paper_plan\", \"report\"], \"rubric\": {\"correctness\": 0.3, \"reproducibility\": 0.25, \"validation\": 0.2, \"risk\": 0.15, \"communication\": 0.1}, \"example_result\": annualized_stats(strategy)}",
+    "location": {
+      "file": "courseware/cases.py",
+      "function": "_module_six()",
+      "start": 294,
+      "end": 294
+    },
+    "dependencies": [
+      "load_orders",
+      "annualized_stats",
+      "_portfolio_backtest"
+    ],
+    "dependencySources": {
+      "load_orders": {
+        "file": "courseware/common.py",
+        "start": 32,
+        "end": 34,
+        "source": "def load_orders() -> pd.DataFrame:\n    frame = pd.read_csv(DATA_DIR / \"orders.csv\", parse_dates=[\"timestamp\"])\n    return frame.sort_values(\"timestamp\").reset_index(drop=True)"
+      },
+      "annualized_stats": {
+        "file": "courseware/common.py",
+        "start": 51,
+        "end": 60,
+        "source": "def annualized_stats(returns: pd.Series) -> dict[str, float]:\n    clean = returns.dropna()\n    annual_return = float(clean.mean() * 252)\n    annual_vol = float(clean.std(ddof=1) * np.sqrt(252))\n    return {\n        \"annual_return\": annual_return,\n        \"annual_volatility\": annual_vol,\n        \"sharpe\": annual_return / annual_vol if annual_vol else 0.0,\n        \"max_drawdown\": max_drawdown(clean),\n    }"
+      },
+      "_portfolio_backtest": {
+        "file": "courseware/cases.py",
+        "start": 30,
+        "end": 38,
+        "source": "def _portfolio_backtest(cost_bps: float = 0.0) -> pd.Series:\n    returns = return_matrix().fillna(0.0)\n    signal = close_matrix().pct_change(20).shift(1)\n    ranks = signal.rank(axis=1, pct=True)\n    raw = (ranks - 0.5).fillna(0.0)\n    weights = raw.div(raw.abs().sum(axis=1).replace(0, np.nan), axis=0).fillna(0.0)\n    turnover = weights.diff().abs().sum(axis=1).fillna(0.0)\n    gross = (weights * returns).sum(axis=1)\n    return gross - turnover * cost_bps / 10_000"
+      }
+    }
+  }
+}

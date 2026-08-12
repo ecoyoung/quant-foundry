@@ -1,0 +1,13 @@
+{
+  "weights": {
+    "ALFA": 0.2,
+    "BRAV": 0.2,
+    "CRUX": 0.2,
+    "DUNE": 0.2,
+    "ECHO": 0.2
+  },
+  "annual_return": 0.0769713036,
+  "annual_volatility": 0.0771763715,
+  "sharpe": 0.9973428674,
+  "max_drawdown": -0.1027118956
+}

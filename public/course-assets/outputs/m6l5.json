@@ -1,0 +1,13 @@
+{
+  "checklist": {
+    "data": true,
+    "clock": true,
+    "risk": true,
+    "orders": true,
+    "reconciliation": true,
+    "alerts": true,
+    "kill_switch": true
+  },
+  "ready_for_small_paper_trial": true,
+  "real_market_impact_validated": false
+}

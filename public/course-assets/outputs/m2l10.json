@@ -1,0 +1,46 @@
+{
+  "portfolio": {
+    "annual_return": 0.0769713036,
+    "annual_volatility": 0.0771763715,
+    "sharpe": 0.9973428674,
+    "max_drawdown": -0.1027118956
+  },
+  "latest_60d_vol": 0.0675847345,
+  "correlation": {
+    "ALFA": {
+      "ALFA": 1.0,
+      "BRAV": 0.534,
+      "CRUX": 0.483,
+      "DUNE": 0.458,
+      "ECHO": 0.391
+    },
+    "BRAV": {
+      "ALFA": 0.534,
+      "BRAV": 1.0,
+      "CRUX": 0.432,
+      "DUNE": 0.419,
+      "ECHO": 0.419
+    },
+    "CRUX": {
+      "ALFA": 0.483,
+      "BRAV": 0.432,
+      "CRUX": 1.0,
+      "DUNE": 0.376,
+      "ECHO": 0.39
+    },
+    "DUNE": {
+      "ALFA": 0.458,
+      "BRAV": 0.419,
+      "CRUX": 0.376,
+      "DUNE": 1.0,
+      "ECHO": 0.387
+    },
+    "ECHO": {
+      "ALFA": 0.391,
+      "BRAV": 0.419,
+      "CRUX": 0.39,
+      "DUNE": 0.387,
+      "ECHO": 1.0
+    }
+  }
+}

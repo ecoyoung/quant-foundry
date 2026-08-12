@@ -1,0 +1,34 @@
+{
+  "folds": [
+    {
+      "train_start": 0,
+      "train_end": 449,
+      "test_start": 455,
+      "test_end": 514
+    },
+    {
+      "train_start": 0,
+      "train_end": 509,
+      "test_start": 515,
+      "test_end": 574
+    },
+    {
+      "train_start": 0,
+      "train_end": 569,
+      "test_start": 575,
+      "test_end": 634
+    },
+    {
+      "train_start": 0,
+      "train_end": 629,
+      "test_start": 635,
+      "test_end": 694
+    },
+    {
+      "train_start": 0,
+      "train_end": 689,
+      "test_start": 695,
+      "test_end": 754
+    }
+  ]
+}

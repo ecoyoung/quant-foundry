@@ -1,0 +1,10 @@
+{
+  "event_flow": [
+    "DataFeed",
+    "Strategy",
+    "Portfolio",
+    "Broker",
+    "Ledger"
+  ],
+  "separation_checks": 5
+}

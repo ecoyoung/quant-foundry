@@ -1,0 +1,7 @@
+timestamp,order_id,asset,side,quantity,price,status,filled_quantity
+2026-08-10 09:31:00,O001,ALFA,buy,500,125.05,submitted,0
+2026-08-10 09:31:02,O001,ALFA,buy,500,125.07,partial,200
+2026-08-10 09:31:05,O001,ALFA,buy,500,125.08,filled,500
+2026-08-10 10:15:00,O002,BRAV,sell,300,88.4,submitted,0
+2026-08-10 10:15:04,O002,BRAV,sell,300,88.37,filled,300
+2026-08-10 11:00:00,O003,CRUX,buy,1000,101.2,rejected,0

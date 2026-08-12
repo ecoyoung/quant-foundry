@@ -1,0 +1,22 @@
+{
+  "state_paths": {
+    "O001": [
+      "submitted",
+      "partial",
+      "filled"
+    ],
+    "O002": [
+      "submitted",
+      "filled"
+    ],
+    "O003": [
+      "rejected"
+    ]
+  },
+  "terminal_states": {
+    "O001": "filled",
+    "O002": "filled",
+    "O003": "rejected"
+  },
+  "unique_events": 6
+}

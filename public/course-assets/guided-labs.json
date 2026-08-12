@@ -1,0 +1,638 @@
+{
+  "m1l1": {
+    "title": "从价格计算简单收益率",
+    "task": "补全相邻两日价格的收益率表达式。",
+    "starter": "prices = [100.0, 102.0, 99.96]\nreturns = [...]  # TODO：用相邻价格计算两个简单收益率\n\nassert all(abs(a-b)<1e-12 for a,b in zip(returns,[0.02,-0.02]))\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "prices = [100.0, 102.0, 99.96]\nreturns = [prices[i] / prices[i - 1] - 1 for i in range(1, len(prices))]",
+    "solution": "prices = [100.0, 102.0, 99.96]\nreturns = [prices[i] / prices[i - 1] - 1 for i in range(1, len(prices))]\n\nassert all(abs(a-b)<1e-12 for a,b in zip(returns,[0.02,-0.02]))\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l2": {
+    "title": "识别可用的价格记录",
+    "task": "写出同时检查价格为正、成交量非负的过滤条件。",
+    "starter": "rows = [(101.2, 800), (0.0, 500), (99.8, -1)]\nvalid = [...]  # TODO：只保留合法行\n\nassert valid == [(101.2,800)]\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "rows = [(101.2, 800), (0.0, 500), (99.8, -1)]\nvalid = [row for row in rows if row[0] > 0 and row[1] >= 0]",
+    "solution": "rows = [(101.2, 800), (0.0, 500), (99.8, -1)]\nvalid = [row for row in rows if row[0] > 0 and row[1] >= 0]\n\nassert valid == [(101.2,800)]\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l3": {
+    "title": "实现收益率函数",
+    "task": "补全函数体，并处理前值为零的异常输入。",
+    "starter": "def simple_return(previous, current):\n    # TODO：前值必须为正\n    ...\n\nassert abs(simple_return(100,103)-0.03)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "def simple_return(previous, current):\n    if previous <= 0:\n        raise ValueError('previous must be positive')\n    return current / previous - 1",
+    "solution": "def simple_return(previous, current):\n    if previous <= 0:\n        raise ValueError('previous must be positive')\n    return current / previous - 1\n\nassert abs(simple_return(100,103)-0.03)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l4": {
+    "title": "向量化计算收益率",
+    "task": "使用 pandas 的 pct_change 生成完整收益序列。",
+    "starter": "import pandas as pd\nprices = pd.Series([100.0, 101.0, 99.99, 102.0])\nreturns = ...  # TODO\n\nassert len(returns)==3 and abs(returns.iloc[0]-0.01)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "import pandas as pd\nprices = pd.Series([100.0, 101.0, 99.99, 102.0])\nreturns = prices.pct_change().dropna()",
+    "solution": "import pandas as pd\nprices = pd.Series([100.0, 101.0, 99.99, 102.0])\nreturns = prices.pct_change().dropna()\n\nassert len(returns)==3 and abs(returns.iloc[0]-0.01)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l5": {
+    "title": "构造资产价格矩阵",
+    "task": "把长表转换为日期 × 资产矩阵，并计算收益率。",
+    "starter": "import pandas as pd\nframe = pd.DataFrame({'date':['d1','d1','d2','d2'],'asset':['A','B','A','B'],'price':[100,50,102,49]})\nprices = ...  # TODO：pivot\nreturns = ...\n\nassert abs(returns.loc['d2','A']-0.02)<1e-12 and abs(returns.loc['d2','B']+0.02)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "import pandas as pd\nframe = pd.DataFrame({'date':['d1','d1','d2','d2'],'asset':['A','B','A','B'],'price':[100,50,102,49]})\nprices = frame.pivot(index='date', columns='asset', values='price')\nreturns = prices.pct_change().dropna()",
+    "solution": "import pandas as pd\nframe = pd.DataFrame({'date':['d1','d1','d2','d2'],'asset':['A','B','A','B'],'price':[100,50,102,49]})\nprices = frame.pivot(index='date', columns='asset', values='price')\nreturns = prices.pct_change().dropna()\n\nassert abs(returns.loc['d2','A']-0.02)<1e-12 and abs(returns.loc['d2','B']+0.02)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l6": {
+    "title": "编写数据质量检查",
+    "task": "统计缺失、非正价格和重复键。",
+    "starter": "import pandas as pd\ndf = pd.DataFrame({'date':['d1','d1','d2'],'asset':['A','A','B'],'price':[100,None,-2]})\nreport = {...}  # TODO\n\nassert report=={'missing':1,'non_positive':1,'duplicate_keys':1}\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "import pandas as pd\ndf = pd.DataFrame({'date':['d1','d1','d2'],'asset':['A','A','B'],'price':[100,None,-2]})\nreport = {'missing': int(df.price.isna().sum()), 'non_positive': int(df.price.le(0).sum()), 'duplicate_keys': int(df.duplicated(['date','asset']).sum())}",
+    "solution": "import pandas as pd\ndf = pd.DataFrame({'date':['d1','d1','d2'],'asset':['A','A','B'],'price':[100,None,-2]})\nreport = {'missing': int(df.price.isna().sum()), 'non_positive': int(df.price.le(0).sum()), 'duplicate_keys': int(df.duplicated(['date','asset']).sum())}\n\nassert report=={'missing':1,'non_positive':1,'duplicate_keys':1}\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l7": {
+    "title": "聚合日内 OHLC",
+    "task": "从逐笔价格生成开、高、低、收四个字段。",
+    "starter": "import pandas as pd\ns = pd.Series([100,103,99,102])\nbar = {...}  # TODO\n\nassert bar=={'open':100,'high':103,'low':99,'close':102}\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "import pandas as pd\ns = pd.Series([100,103,99,102])\nbar = {'open': int(s.iloc[0]), 'high': int(s.max()), 'low': int(s.min()), 'close': int(s.iloc[-1])}",
+    "solution": "import pandas as pd\ns = pd.Series([100,103,99,102])\nbar = {'open': int(s.iloc[0]), 'high': int(s.max()), 'low': int(s.min()), 'close': int(s.iloc[-1])}\n\nassert bar=={'open':100,'high':103,'low':99,'close':102}\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m1l8": {
+    "title": "形成可复现绩效摘要",
+    "task": "实现年化收益、波动和夏普率的计算闭环。",
+    "starter": "import pandas as pd\nr = pd.Series([0.01,-0.005,0.012,-0.002])\nannual_return = ...\nannual_vol = ...\nsharpe = ...\n\nassert annual_vol>0 and abs(sharpe-annual_return/annual_vol)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "answer": "import pandas as pd\nr = pd.Series([0.01,-0.005,0.012,-0.002])\nannual_return = r.mean()*252\nannual_vol = r.std(ddof=1)*(252**0.5)\nsharpe = annual_return/annual_vol",
+    "solution": "import pandas as pd\nr = pd.Series([0.01,-0.005,0.012,-0.002])\nannual_return = r.mean()*252\nannual_vol = r.std(ddof=1)*(252**0.5)\nsharpe = annual_return/annual_vol\n\nassert annual_vol>0 and abs(sharpe-annual_return/annual_vol)<1e-12\nprint('练习通过：计算与断言形成闭环')",
+    "hints": [
+      "先写出输入与输出的形状或数据类型。",
+      "把计算拆成一行可检查的中间结果。",
+      "参考实现已解锁；比较思路后再载入，仍需亲自运行测试。"
+    ]
+  },
+  "m2l1": {
+    "title": "检验随机样本的估计误差",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm2l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm2l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l10": {
+    "title": "汇总风险仪表盘证据",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l10\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm2l10', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l10\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm2l10', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l2": {
+    "title": "核对样本统计量口径",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm2l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm2l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l3": {
+    "title": "审计协方差与相关矩阵",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l3\")\n\nREQUIRED = ['covariance', 'correlation']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm2l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['covariance', 'correlation']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l3\")\n\nREQUIRED = ['covariance', 'correlation']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm2l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l4": {
+    "title": "比较经验尾部与正态尾部",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l4\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm2l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l4\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm2l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l5": {
+    "title": "量化样本均值收敛",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm2l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm2l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l6": {
+    "title": "检查 Bootstrap 区间",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm2l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm2l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l7": {
+    "title": "建立年化风险绩效卡",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l7\")\n\nREQUIRED = ['annual_return', 'annual_volatility', 'sharpe', 'max_drawdown']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm2l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['annual_return', 'annual_volatility', 'sharpe', 'max_drawdown']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l7\")\n\nREQUIRED = ['annual_return', 'annual_volatility', 'sharpe', 'max_drawdown']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm2l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l8": {
+    "title": "验证 VaR 与 CVaR 顺序",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l8\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm2l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l8\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm2l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m2l9": {
+    "title": "检查组合权重与绩效",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l9\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm2l9', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m2l9\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm2l9', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l1": {
+    "title": "把研究协议变成可检查字段",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm3l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm3l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l2": {
+    "title": "比较价格与收益的滞后关系",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm3l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm3l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l3": {
+    "title": "审计 ACF 滞后结构",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l3\")\n\nREQUIRED = ['return_acf', 'absolute_return_acf']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm3l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['return_acf', 'absolute_return_acf']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l3\")\n\nREQUIRED = ['return_acf', 'absolute_return_acf']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm3l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l4": {
+    "title": "检查特征与标签时间线",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l4\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm3l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l4\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm3l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l5": {
+    "title": "复核回归估计证据",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm3l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm3l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l6": {
+    "title": "检查动量排序完整性",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm3l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm3l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l7": {
+    "title": "审计配对交易信号",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l7\")\n\nREQUIRED = ['latest_zscore', 'long_signals', 'short_signals']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm3l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['latest_zscore', 'long_signals', 'short_signals']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l7\")\n\nREQUIRED = ['latest_zscore', 'long_signals', 'short_signals']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm3l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l8": {
+    "title": "汇总横截面 IC 证据",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l8\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm3l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l8\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm3l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m3l9": {
+    "title": "形成因子研究证据表",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l9\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm3l9', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m3l9\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm3l9', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l1": {
+    "title": "验证事件驱动组件边界",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm4l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm4l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l10": {
+    "title": "验证 Walk-forward 时间隔离",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l10\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm4l10', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l10\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm4l10', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l11": {
+    "title": "核对回测账本闭环",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l11\")\n\nREQUIRED = ['events_processed', 'ending_equity', 'performance', 'ledger_balanced', 'equity_curve', 'drawdown_curve', 'monthly_returns']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm4l11', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['events_processed', 'ending_equity', 'performance', 'ledger_balanced', 'equity_curve', 'drawdown_curve', 'monthly_returns']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l11\")\n\nREQUIRED = ['events_processed', 'ending_equity', 'performance', 'ledger_balanced', 'equity_curve', 'drawdown_curve', 'monthly_returns']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm4l11', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l2": {
+    "title": "从目标权重推导订单",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm4l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm4l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l3": {
+    "title": "检查信息与成交因果顺序",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l3\")\n\nREQUIRED = ['information_time', 'execution_time', 'causal_order_valid']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm4l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['information_time', 'execution_time', 'causal_order_valid']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l3\")\n\nREQUIRED = ['information_time', 'execution_time', 'causal_order_valid']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm4l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l4": {
+    "title": "审计历史成分股覆盖",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l4\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm4l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l4\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm4l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l5": {
+    "title": "拆解毛收益、净收益与成本",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm4l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm4l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l6": {
+    "title": "检查参与率冲击曲线",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm4l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm4l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l7": {
+    "title": "审计订单状态路径",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l7\")\n\nREQUIRED = ['order_state_paths', 'filled_orders']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm4l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['order_state_paths', 'filled_orders']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l7\")\n\nREQUIRED = ['order_state_paths', 'filled_orders']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm4l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l8": {
+    "title": "建立回测绩效证据",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l8\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm4l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l8\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm4l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m4l9": {
+    "title": "检查回撤严重度与持续期",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l9\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm4l9', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m4l9\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm4l9', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l1": {
+    "title": "审计特征与标签契约",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm5l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm5l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l2": {
+    "title": "检查训练内标准化",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm5l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm5l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l3": {
+    "title": "验证时序交叉验证折",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l3\")\n\nREQUIRED = ['folds', 'chronological', 'gap']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm5l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['folds', 'chronological', 'gap']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l3\")\n\nREQUIRED = ['folds', 'chronological', 'gap']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm5l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l4": {
+    "title": "运行随机标签泄漏警报",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l4\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm5l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l4\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm5l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l5": {
+    "title": "比较模型与朴素基准",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm5l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm5l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l6": {
+    "title": "汇总跨折系数稳定性",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm5l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm5l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l7": {
+    "title": "量化多重尝试的赢家偏差",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l7\")\n\nREQUIRED = ['strategies_tried', 'mean_sharpe', 'best_sharpe']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm5l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['strategies_tried', 'mean_sharpe', 'best_sharpe']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l7\")\n\nREQUIRED = ['strategies_tried', 'mean_sharpe', 'best_sharpe']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm5l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m5l8": {
+    "title": "形成样本外验证档案",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l8\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm5l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m5l8\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm5l8', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l1": {
+    "title": "核对研究到生产的包契约",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm6l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l1\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm6l1', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l2": {
+    "title": "审计订单幂等状态",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm6l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l2\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm6l2', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l3": {
+    "title": "实现预交易风险闸门",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l3\")\n\nREQUIRED = ['checks', 'order_allowed']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm6l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['checks', 'order_allowed']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l3\")\n\nREQUIRED = ['checks', 'order_allowed']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm6l3', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l4": {
+    "title": "从运行指标生成告警",
+    "task": "实现有限数值清洗器，避免 NaN、无穷值或布尔量污染研究摘要。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l4\")\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    # TODO：排除 bool、NaN 与无穷值\n    ...\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm6l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "import math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l4\")\n\nimport math\n\ndef finite_numbers(value):\n    \"\"\"递归返回所有有限数值。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in finite_numbers(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in finite_numbers(item)]\n    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):\n        return [float(value)]\n    return []\n\nvalues = finite_numbers(result)\nevidence = {\"total\": len(values), \"mean\": sum(values) / len(values)}\n\nassert evidence[\"total\"] > 0\nassert min(values) <= evidence[\"mean\"] <= max(values)\nassert all(isinstance(value, float) for value in values)\nprint(json.dumps({'lesson': 'm6l4', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l5": {
+    "title": "检查模拟盘上线条件",
+    "task": "实现递归数值提取器，并用数量、最小值与最大值检查本课全部数值证据。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    # TODO：同时处理 dict、list 与数值叶节点\n    ...\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm6l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l5\")\n\ndef numeric_evidence(value):\n    \"\"\"递归提取所有非布尔数值；返回一维列表。\"\"\"\n    if isinstance(value, dict):\n        return [number for item in value.values() for number in numeric_evidence(item)]\n    if isinstance(value, list):\n        return [number for item in value for number in numeric_evidence(item)]\n    return [float(value)] if isinstance(value, (int, float)) and not isinstance(value, bool) else []\n\nvalues = numeric_evidence(result)\nsummary = {\"count\": len(values), \"minimum\": min(values), \"maximum\": max(values)}\n\nassert summary[\"count\"] > 0\nassert summary[\"minimum\"] <= summary[\"maximum\"]\nassert all(value == value for value in values)\nprint(json.dumps({'lesson': 'm6l5', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l6": {
+    "title": "审计策略报告完整性",
+    "task": "实现结果路径索引，让报告里的每项证据都能追溯到 JSON 字段。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    # TODO：递归遍历 dict 与 list\n    ...\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm6l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "def leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l6\")\n\ndef leaf_paths(value, prefix=\"result\"):\n    \"\"\"返回所有叶节点的点号路径。\"\"\"\n    if isinstance(value, dict):\n        return [path for key, item in value.items() for path in leaf_paths(item, f\"{prefix}.{key}\")]\n    if isinstance(value, list):\n        return [path for index, item in enumerate(value) for path in leaf_paths(item, f\"{prefix}[{index}]\")]\n    return [prefix]\n\npaths = leaf_paths(result)\n\nassert paths\nassert len(paths) == len(set(paths))\nassert all(path.startswith(\"result\") for path in paths)\nprint(json.dumps({'lesson': 'm6l6', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  },
+  "m6l7": {
+    "title": "核对毕业交付证据链",
+    "task": "把本课结论写成数据契约审计，明确必需字段、空值与通过条件。",
+    "starter": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l7\")\n\nREQUIRED = ['deliverables', 'rubric', 'example_result']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    # TODO：空列表、空字典、空字符串和 None 都算空字段\n    ...\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm6l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "answer": "REQUIRED = ['deliverables', 'rubric', 'example_result']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)",
+    "solution": "import json\nfrom cases import run_case\n\nresult = run_case(\"m6l7\")\n\nREQUIRED = ['deliverables', 'rubric', 'example_result']\n\ndef audit(payload, required):\n    \"\"\"返回缺失字段、空字段和是否通过。\"\"\"\n    missing = [key for key in required if key not in payload]\n    empty = [key for key in required if key in payload and payload[key] in (None, \"\", [], {})]\n    return {\"missing\": missing, \"empty\": empty, \"passed\": not missing and not empty}\n\nreport = audit(result, REQUIRED)\n\nassert report[\"passed\"]\nassert report[\"missing\"] == []\nassert report[\"empty\"] == []\nprint(json.dumps({'lesson': 'm6l7', 'tests': 'passed'}, ensure_ascii=False))",
+    "hints": [
+      "先用一个最小 dict 手动验证递归边界。",
+      "分别考虑 dict、list、普通叶节点与 bool。",
+      "参考实现已解锁；载入后请逐行解释递归出口，再运行三项测试。"
+    ]
+  }
+}

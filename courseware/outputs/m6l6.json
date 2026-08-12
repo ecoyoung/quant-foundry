@@ -1,0 +1,21 @@
+{
+  "report_sections": [
+    "thesis",
+    "data",
+    "method",
+    "validation",
+    "costs",
+    "capacity",
+    "risks",
+    "limitations",
+    "reproduction",
+    "monitoring"
+  ],
+  "strategy_snapshot": {
+    "annual_return": -0.0673657827,
+    "annual_volatility": 0.049227893,
+    "sharpe": -1.3684474096,
+    "max_drawdown": -0.1952232379
+  },
+  "stop_condition": "rolling 6-month net Sharpe <= 0"
+}

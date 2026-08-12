@@ -1,0 +1,12 @@
+{
+  "metrics": {
+    "data_lag_seconds": 1.8,
+    "order_reject_rate": 0.3333333333,
+    "position_drift": 0.002,
+    "realized_slippage_bps": 2.4,
+    "heartbeat": true
+  },
+  "alerts": [
+    "order_reject_rate"
+  ]
+}

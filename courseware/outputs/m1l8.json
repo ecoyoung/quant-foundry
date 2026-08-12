@@ -1,0 +1,37 @@
+{
+  "dataset_rows": 3780,
+  "date_start": "2023-01-02T00:00:00",
+  "date_end": "2025-11-24T00:00:00",
+  "asset_stats": {
+    "ALFA": {
+      "annual_return": 0.0741509348,
+      "annual_volatility": 0.0935313183,
+      "sharpe": 0.792792576,
+      "max_drawdown": -0.1552771474
+    },
+    "BRAV": {
+      "annual_return": 0.0445981891,
+      "annual_volatility": 0.1005678986,
+      "sharpe": 0.4434634682,
+      "max_drawdown": -0.1189194426
+    },
+    "CRUX": {
+      "annual_return": 0.101536845,
+      "annual_volatility": 0.1040721831,
+      "sharpe": 0.9756386574,
+      "max_drawdown": -0.1164019806
+    },
+    "DUNE": {
+      "annual_return": 0.107382378,
+      "annual_volatility": 0.1088048022,
+      "sharpe": 0.9869268251,
+      "max_drawdown": -0.122617822
+    },
+    "ECHO": {
+      "annual_return": 0.0571881712,
+      "annual_volatility": 0.1177414674,
+      "sharpe": 0.4857096861,
+      "max_drawdown": -0.2056400384
+    }
+  }
+}

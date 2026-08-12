@@ -1,0 +1,28 @@
+{
+  "name": "quant-foundry",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "node scripts/generate-offline-assets.mjs && next build",
+    "start": "next start",
+    "lint": "tsc --noEmit",
+    "course:data": "python3 courseware/generate_assets.py --data-only && python3 courseware/export_implementations.py",
+    "course:verify": "python3 courseware/verify_all.py"
+    ,"test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@next/swc-wasm-nodejs": "^16.3.0",
+    "@playwright/test": "^1.62.1",
+    "next": "^16.3.0"
+  }
+}

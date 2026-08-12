@@ -1,0 +1,41 @@
+name: quant-foundry
+
+services:
+  course:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quant-foundry:latest
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:${COURSE_PORT:-4173}:3000"
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - require('http').get('http://127.0.0.1:3000/api/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    profiles: ["tunnel"]
+    depends_on:
+      course:
+        condition: service_healthy
+    secrets:
+      - cloudflare_tunnel_token
+    command: tunnel --no-autoupdate --protocol http2 run --token-file /run/secrets/cloudflare_tunnel_token
+    security_opt:
+      - no-new-privileges:true
+
+secrets:
+  cloudflare_tunnel_token:
+    file: ./.secrets/cloudflare_tunnel_token

@@ -1,0 +1,14 @@
+{
+  "name": "量研课 Quantitative Research Lab",
+  "short_name": "量研课",
+  "description": "从 Python 基础到可复现量化研究的 53 节课程。",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f2efe7",
+  "theme_color": "#1b4b5a",
+  "lang": "zh-CN",
+  "icons": [
+    { "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

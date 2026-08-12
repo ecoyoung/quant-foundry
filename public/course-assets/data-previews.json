@@ -1,0 +1,299 @@
+{
+  "daily_ohlcv.csv": {
+    "filename": "daily_ohlcv.csv",
+    "rows": 3780,
+    "columns": [
+      "date",
+      "asset",
+      "open",
+      "high",
+      "low",
+      "close",
+      "adjusted_close",
+      "volume",
+      "sector",
+      "historical_member"
+    ],
+    "dictionary": {
+      "date": "交易日期",
+      "asset": "虚构资产代码",
+      "open": "开盘价",
+      "high": "最高价",
+      "low": "最低价",
+      "close": "未复权收盘价",
+      "adjusted_close": "复权收盘价",
+      "volume": "成交量",
+      "sector": "行业标签",
+      "historical_member": "当日是否属于历史资产池"
+    },
+    "preview": [
+      {
+        "date": "2023-01-02",
+        "asset": "ALFA",
+        "open": "69.941102",
+        "high": "70.741576",
+        "low": "69.265168",
+        "close": "69.747276",
+        "adjusted_close": "69.747276",
+        "volume": "3989181",
+        "sector": "technology",
+        "historical_member": "True"
+      },
+      {
+        "date": "2023-01-03",
+        "asset": "ALFA",
+        "open": "69.837044",
+        "high": "70.557894",
+        "low": "68.916708",
+        "close": "69.578852",
+        "adjusted_close": "69.578852",
+        "volume": "753578",
+        "sector": "technology",
+        "historical_member": "True"
+      },
+      {
+        "date": "2023-01-04",
+        "asset": "ALFA",
+        "open": "70.236296",
+        "high": "71.057056",
+        "low": "69.650142",
+        "close": "70.086314",
+        "adjusted_close": "70.086314",
+        "volume": "688245",
+        "sector": "technology",
+        "historical_member": "True"
+      },
+      {
+        "date": "2023-01-05",
+        "asset": "ALFA",
+        "open": "69.875996",
+        "high": "70.507043",
+        "low": "69.188603",
+        "close": "69.659836",
+        "adjusted_close": "69.659836",
+        "volume": "2958687",
+        "sector": "technology",
+        "historical_member": "True"
+      },
+      {
+        "date": "2023-01-06",
+        "asset": "ALFA",
+        "open": "70.163548",
+        "high": "70.487922",
+        "low": "69.204574",
+        "close": "69.916925",
+        "adjusted_close": "69.916925",
+        "volume": "2743907",
+        "sector": "technology",
+        "historical_member": "True"
+      }
+    ]
+  },
+  "factor_panel.csv": {
+    "filename": "factor_panel.csv",
+    "rows": 3780,
+    "columns": [
+      "date",
+      "asset",
+      "value",
+      "quality",
+      "size",
+      "future_return"
+    ],
+    "dictionary": {
+      "date": "交易日期",
+      "asset": "虚构资产代码",
+      "value": "价值因子暴露",
+      "quality": "质量因子暴露",
+      "size": "规模因子暴露",
+      "future_return": "下一期收益率"
+    },
+    "preview": [
+      {
+        "date": "2023-01-02",
+        "asset": "ALFA",
+        "value": "0.067067",
+        "quality": "0.614037",
+        "size": "19.443975",
+        "future_return": "-0.00241477"
+      },
+      {
+        "date": "2023-01-03",
+        "asset": "ALFA",
+        "value": "0.359417",
+        "quality": "0.534725",
+        "size": "17.775048",
+        "future_return": "0.00729334"
+      },
+      {
+        "date": "2023-01-04",
+        "asset": "ALFA",
+        "value": "0.155242",
+        "quality": "0.66471",
+        "size": "17.691628",
+        "future_return": "-0.00608504"
+      },
+      {
+        "date": "2023-01-05",
+        "asset": "ALFA",
+        "value": "0.130522",
+        "quality": "0.520992",
+        "size": "19.14388",
+        "future_return": "0.00369063"
+      },
+      {
+        "date": "2023-01-06",
+        "asset": "ALFA",
+        "value": "0.104127",
+        "quality": "0.474369",
+        "size": "19.072201",
+        "future_return": "0.00548128"
+      }
+    ]
+  },
+  "minute_ohlcv.csv": {
+    "filename": "minute_ohlcv.csv",
+    "rows": 390,
+    "columns": [
+      "timestamp",
+      "asset",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "dictionary": {
+      "timestamp": "事件时间",
+      "asset": "虚构资产代码",
+      "open": "开盘价",
+      "high": "最高价",
+      "low": "最低价",
+      "close": "未复权收盘价",
+      "volume": "成交量"
+    },
+    "preview": [
+      {
+        "timestamp": "2026-08-10 09:30:00",
+        "asset": "ALFA",
+        "open": "125.0",
+        "high": "125.235565",
+        "low": "124.9699",
+        "close": "125.156994",
+        "volume": "3150"
+      },
+      {
+        "timestamp": "2026-08-10 09:31:00",
+        "asset": "ALFA",
+        "open": "125.156994",
+        "high": "125.234908",
+        "low": "125.062135",
+        "close": "125.130881",
+        "volume": "4149"
+      },
+      {
+        "timestamp": "2026-08-10 09:32:00",
+        "asset": "ALFA",
+        "open": "125.130881",
+        "high": "125.151117",
+        "low": "125.00266",
+        "close": "125.011157",
+        "volume": "2450"
+      },
+      {
+        "timestamp": "2026-08-10 09:33:00",
+        "asset": "ALFA",
+        "open": "125.011157",
+        "high": "125.122126",
+        "low": "124.960217",
+        "close": "125.065662",
+        "volume": "1562"
+      },
+      {
+        "timestamp": "2026-08-10 09:34:00",
+        "asset": "ALFA",
+        "open": "125.065662",
+        "high": "125.19234",
+        "low": "125.058709",
+        "close": "125.098289",
+        "volume": "4733"
+      }
+    ]
+  },
+  "orders.csv": {
+    "filename": "orders.csv",
+    "rows": 6,
+    "columns": [
+      "timestamp",
+      "order_id",
+      "asset",
+      "side",
+      "quantity",
+      "price",
+      "status",
+      "filled_quantity"
+    ],
+    "dictionary": {
+      "timestamp": "事件时间",
+      "order_id": "订单编号",
+      "asset": "虚构资产代码",
+      "side": "买卖方向",
+      "quantity": "委托数量",
+      "price": "委托或成交价格",
+      "status": "订单状态",
+      "filled_quantity": "累计成交数量"
+    },
+    "preview": [
+      {
+        "timestamp": "2026-08-10 09:31:00",
+        "order_id": "O001",
+        "asset": "ALFA",
+        "side": "buy",
+        "quantity": "500",
+        "price": "125.05",
+        "status": "submitted",
+        "filled_quantity": "0"
+      },
+      {
+        "timestamp": "2026-08-10 09:31:02",
+        "order_id": "O001",
+        "asset": "ALFA",
+        "side": "buy",
+        "quantity": "500",
+        "price": "125.07",
+        "status": "partial",
+        "filled_quantity": "200"
+      },
+      {
+        "timestamp": "2026-08-10 09:31:05",
+        "order_id": "O001",
+        "asset": "ALFA",
+        "side": "buy",
+        "quantity": "500",
+        "price": "125.08",
+        "status": "filled",
+        "filled_quantity": "500"
+      },
+      {
+        "timestamp": "2026-08-10 10:15:00",
+        "order_id": "O002",
+        "asset": "BRAV",
+        "side": "sell",
+        "quantity": "300",
+        "price": "88.4",
+        "status": "submitted",
+        "filled_quantity": "0"
+      },
+      {
+        "timestamp": "2026-08-10 10:15:04",
+        "order_id": "O002",
+        "asset": "BRAV",
+        "side": "sell",
+        "quantity": "300",
+        "price": "88.37",
+        "status": "filled",
+        "filled_quantity": "300"
+      }
+    ]
+  }
+}

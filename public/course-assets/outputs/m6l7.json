@@ -1,0 +1,26 @@
+{
+  "deliverables": [
+    "protocol",
+    "repository",
+    "data_dictionary",
+    "backtest",
+    "robustness",
+    "cost_model",
+    "risk_limits",
+    "paper_plan",
+    "report"
+  ],
+  "rubric": {
+    "correctness": 0.3,
+    "reproducibility": 0.25,
+    "validation": 0.2,
+    "risk": 0.15,
+    "communication": 0.1
+  },
+  "example_result": {
+    "annual_return": -0.0673657827,
+    "annual_volatility": 0.049227893,
+    "sharpe": -1.3684474096,
+    "max_drawdown": -0.1952232379
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "universe": "5 synthetic liquid assets",
+  "signal": "20-day momentum",
+  "holding_period": "5 business days",
+  "metric": "cost-adjusted return",
+  "rejection_rule": "out-of-sample Sharpe <= 0"
+}

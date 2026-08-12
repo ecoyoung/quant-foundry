@@ -1,0 +1,15 @@
+{
+  "gross": {
+    "annual_return": 0.0052752429,
+    "annual_volatility": 0.0492043993,
+    "sharpe": 0.1072107985,
+    "max_drawdown": -0.0708180993
+  },
+  "net_10bps": {
+    "annual_return": -0.0673657827,
+    "annual_volatility": 0.049227893,
+    "sharpe": -1.3684474096,
+    "max_drawdown": -0.1952232379
+  },
+  "annual_cost_drag": 0.0726410256
+}

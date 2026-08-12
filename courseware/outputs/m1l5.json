@@ -1,0 +1,20 @@
+{
+  "price_shape": [
+    756,
+    5
+  ],
+  "assets": [
+    "ALFA",
+    "BRAV",
+    "CRUX",
+    "DUNE",
+    "ECHO"
+  ],
+  "first_valid_return": {
+    "ALFA": -0.0024147753,
+    "BRAV": -0.0078076858,
+    "CRUX": 0.0079358461,
+    "DUNE": -0.0039842523,
+    "ECHO": 0.0021853097
+  }
+}

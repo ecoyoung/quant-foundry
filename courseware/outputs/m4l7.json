@@ -1,0 +1,17 @@
+{
+  "order_state_paths": {
+    "O001": [
+      "submitted",
+      "partial",
+      "filled"
+    ],
+    "O002": [
+      "submitted",
+      "filled"
+    ],
+    "O003": [
+      "rejected"
+    ]
+  },
+  "filled_orders": 2
+}

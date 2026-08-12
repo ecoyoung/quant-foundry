@@ -1,0 +1,25 @@
+{
+  "membership_days": {
+    "ALFA": {
+      "sum": 756,
+      "count": 756
+    },
+    "BRAV": {
+      "sum": 756,
+      "count": 756
+    },
+    "CRUX": {
+      "sum": 756,
+      "count": 756
+    },
+    "DUNE": {
+      "sum": 756,
+      "count": 756
+    },
+    "ECHO": {
+      "sum": 636,
+      "count": 756
+    }
+  },
+  "survivorship_safe": true
+}

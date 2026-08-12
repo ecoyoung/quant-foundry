@@ -1,0 +1,12 @@
+{
+  "model": "ridge regression",
+  "fold_correlations": [
+    -0.0693216168,
+    0.0096556562,
+    0.0889440478,
+    -0.0334373978,
+    0.009732673
+  ],
+  "mean_oos_correlation": 0.0011146725,
+  "leakage_checks_passed": true
+}
