@@ -1,3 +1,5 @@
+**简体中文** | [English](README.en.md)
+
 # 量研课 Quantitative Research Lab
 
 一套本地优先、可安装、可离线的 53 节量化研究课程。使用 Next.js、React、TypeScript 与浏览器端 Pyodide，提供固定合成数据、完整 Python 实现、自动验证、参数实验、六阶段项目和个人研究档案。
